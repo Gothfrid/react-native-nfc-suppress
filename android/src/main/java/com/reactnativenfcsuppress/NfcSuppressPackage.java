@@ -12,7 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class NfcSuppressPackage implements ReactPackage {
-    @NonNull
+
+  @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
@@ -25,4 +26,5 @@ public class NfcSuppressPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
         return Collections.emptyList();
     }
+
 }

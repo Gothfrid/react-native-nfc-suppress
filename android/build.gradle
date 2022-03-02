@@ -21,7 +21,7 @@ def safeExtGet(prop, fallback) {
 android {
     compileSdkVersion safeExtGet('NfcSuppress_compileSdkVersion', 29)
     defaultConfig {
-        minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 16)
+        minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 19)
         targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 29)
         versionCode 1
         versionName "1.0"
