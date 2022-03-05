@@ -1,4 +1,10 @@
-import { NativeModules, Platform } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+  EmitterSubscription,
+  NativeEventEmitter,
+  NativeModules,
+  Platform,
+} from 'react-native';
 
 const LINKING_ERROR =
   `The package 'react-native-nfc-suppress' doesn't seem to be linked. Make sure: \n\n` +
@@ -20,7 +26,9 @@ const NfcSuppress = NativeModules.NfcSuppress
 export async function isSupported(): Promise<boolean> {
   let supported: boolean = false;
   try {
-    supported = await NfcSuppress.isNFCSupported();
+    if (Platform.OS === 'android') {
+      supported = await NfcSuppress.isNFCSupported();
+    }
   } catch (error) {
     console.error('Failed to check, if NFC is supported', error);
   } finally {
@@ -50,9 +58,9 @@ export async function isSuppressing(): Promise<boolean> {
   }
 }
 
-export async function openNfcSettings(): Promise<void> {
+export async function openNFCSettings(): Promise<void> {
   try {
-    await NfcSuppress.openNfcSettings();
+    await NfcSuppress.openNFCSettings();
   } catch (error) {
     console.error('Failed to open NFC Settings.');
   }
@@ -75,3 +83,65 @@ export async function disableSuppression(): Promise<void> {
   }
   return;
 }
+
+export const useNFCSuppressor = () => {
+  const [suppressed, setSuppressed] = useState<boolean>(false);
+  const [supported, setSupported] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const eventEmitter = new NativeEventEmitter(NativeModules.NfcSuppress);
+    const eventListener = eventEmitter.addListener(
+      'suppress_state_changed',
+      (event: boolean): void => {
+        setSuppressed(event);
+      }
+    );
+    return () => {
+      eventListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    isSupported().then((response) => {
+      setSupported(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    let eventListener: EmitterSubscription;
+    if (supported) {
+      isEnabled().then((response) => {
+        setEnabled(response);
+      });
+      const eventEmitter = new NativeEventEmitter(NativeModules.NfcSuppress);
+      eventListener = eventEmitter.addListener(
+        'nfc_state_changed',
+        (event: boolean): void => {
+          setEnabled(event);
+        }
+      );
+    }
+    return () => {
+      if (eventListener) {
+        eventListener.remove();
+      }
+    };
+  }, [supported]);
+
+  useEffect(() => {
+    return () => {
+      if (supported) {
+        disableSuppression();
+      }
+    };
+  }, [supported]);
+
+  return {
+    suppressed,
+    supported,
+    enabled,
+    enableSuppression,
+    disableSuppression,
+  };
+};

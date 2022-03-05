@@ -6,58 +6,37 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  TextStyle,
 } from 'react-native';
 import {
-  isEnabled,
-  isSupported,
-  openNfcSettings,
+  openNFCSettings,
   enableSuppression,
   disableSuppression,
-  isSuppressing,
+  useNFCSuppressor,
 } from 'react-native-nfc-suppress';
 
+const getEnabledColor = (enabled: boolean): TextStyle => ({
+  color: enabled ? 'green' : 'red',
+});
+
 export default function App() {
-  const [enabled, setEnabled] = React.useState<boolean>(false);
-  const [supported, setSupported] = React.useState<boolean>(false);
-  const [suppressed, setSuppressed] = React.useState<boolean>(false);
+  const { suppressed, supported, enabled } = useNFCSuppressor();
 
   const onNfcSettingsPressed = (): void => {
-    openNfcSettings();
+    openNFCSettings();
   };
 
   const switchSuppression = (): void => {
     if (suppressed) {
-      disableSuppression().then(() => {
-        setSuppressed(false);
-      });
+      disableSuppression();
     } else {
-      enableSuppression().then(() => {
-        setSuppressed(true);
-      });
+      enableSuppression();
     }
   };
 
-  React.useEffect(() => {
-    isSupported().then((response: boolean): void => {
-      setSupported(response);
-    });
-    isEnabled().then((response: boolean): void => {
-      setEnabled(response);
-    });
-    isSuppressing().then((response: boolean): void => {
-      setSuppressed(response);
-    });
-  }, []);
-
-  const supportedColor = {
-    color: supported ? 'green' : 'red',
-  };
-  const enabledColor = {
-    color: enabled ? 'green' : 'red',
-  };
-  const suppressedColor = {
-    color: !suppressed ? 'green' : 'red',
-  };
+  const supportedColor = getEnabledColor(supported);
+  const enabledColor = getEnabledColor(enabled);
+  const suppressedColor = getEnabledColor(suppressed);
 
   return (
     <View style={styles.container}>
@@ -86,8 +65,6 @@ export default function App() {
           </Text>
         </TouchableOpacity>
       </View>
-
-      <Text></Text>
     </View>
   );
 }
