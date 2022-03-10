@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   EmitterSubscription,
   NativeEventEmitter,
@@ -89,33 +89,40 @@ export const useNFCSuppressor = () => {
   const [supported, setSupported] = useState<boolean>(false);
   const [enabled, setEnabled] = useState<boolean>(false);
 
-  useEffect(() => {
-    const eventEmitter = new NativeEventEmitter(NativeModules.NfcSuppress);
-    const eventListener = eventEmitter.addListener(
-      'suppress_state_changed',
-      (event: boolean): void => {
-        setSuppressed(event);
-      }
-    );
-    return () => {
-      eventListener.remove();
-    };
-  }, []);
+  const suppressionListenerRef = useRef<EmitterSubscription>();
+  const nfcEnabledListenerRef = useRef<EmitterSubscription>();
 
   useEffect(() => {
-    isSupported().then((response) => {
+    isSupported().then((response: boolean) => {
       setSupported(response);
     });
   }, []);
 
   useEffect(() => {
-    let eventListener: EmitterSubscription;
+    if (supported) {
+      const eventEmitter = new NativeEventEmitter(NativeModules.NfcSuppress);
+      suppressionListenerRef.current = eventEmitter.addListener(
+        'suppress_state_changed',
+        (event: boolean): void => {
+          setSuppressed(event);
+        }
+      );
+    }
+
+    return () => {
+      if (suppressionListenerRef.current) {
+        suppressionListenerRef.current.remove();
+      }
+    };
+  }, [supported]);
+
+  useEffect(() => {
     if (supported) {
       isEnabled().then((response) => {
         setEnabled(response);
       });
       const eventEmitter = new NativeEventEmitter(NativeModules.NfcSuppress);
-      eventListener = eventEmitter.addListener(
+      nfcEnabledListenerRef.current = eventEmitter.addListener(
         'nfc_state_changed',
         (event: boolean): void => {
           setEnabled(event);
@@ -123,8 +130,8 @@ export const useNFCSuppressor = () => {
       );
     }
     return () => {
-      if (eventListener) {
-        eventListener.remove();
+      if (nfcEnabledListenerRef.current) {
+        nfcEnabledListenerRef.current.remove();
       }
     };
   }, [supported]);

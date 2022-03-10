@@ -1,6 +1,6 @@
 {
   "name": "react-native-nfc-suppress",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "suppress nfc",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -37,7 +37,7 @@
     "android"
   ],
   "repository": "https://github.com/Gothfrid/react-native-nfc-suppress",
-  "author": "bohdan.kushnir <bogdan.kushnir.gothfrid@gmail.com> (https://github.com/Gothfrid)",
+  "author": "gothfrid <bogdan.kushnir.gothfrid@gmail.com> (https://github.com/Gothfrid)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Gothfrid/react-native-nfc-suppress/issues"
