@@ -8,19 +8,15 @@ import {
   Dimensions,
   TextStyle,
 } from 'react-native';
-import {
-  openNFCSettings,
-  enableSuppression,
-  disableSuppression,
-  useNFCSuppressor,
-} from 'react-native-nfc-suppress';
+import { openNFCSettings, useNFCSuppressor } from 'react-native-nfc-suppress';
 
 const getEnabledColor = (enabled: boolean): TextStyle => ({
   color: enabled ? 'green' : 'red',
 });
 
 export default function App() {
-  const { suppressed, supported, enabled } = useNFCSuppressor();
+  const { suppressed, supported, enabled, enable, disable } =
+    useNFCSuppressor();
 
   const onNfcSettingsPressed = (): void => {
     openNFCSettings();
@@ -28,9 +24,9 @@ export default function App() {
 
   const switchSuppression = (): void => {
     if (suppressed) {
-      disableSuppression();
+      disable();
     } else {
-      enableSuppression();
+      enable();
     }
   };
 

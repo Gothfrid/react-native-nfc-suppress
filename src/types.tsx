@@ -1,7 +1,3 @@
-export interface BaseProps {
+export interface ConfigProps {
   debug?: boolean;
-}
-
-export interface StateListenerProps extends BaseProps {
-  callback: (state: boolean) => void;
 }
