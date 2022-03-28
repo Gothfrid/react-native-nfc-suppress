@@ -7,7 +7,7 @@ buildscript {
         }
 
         dependencies {
-            classpath 'com.android.tools.build:gradle:3.5.3'
+            classpath("com.android.tools.build:gradle:4.2.2")
         }
     }
 }
@@ -19,10 +19,13 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    compileSdkVersion safeExtGet('NfcSuppress_compileSdkVersion', 29)
+    ndkVersion rootProject.ext.ndkVersion
+
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    
     defaultConfig {
-        minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 19)
-        targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 29)
+        minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 21)
+        targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 30)
         versionCode 1
         versionName "1.0"
 
@@ -30,27 +33,29 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
         }
     }
     lintOptions {
         disable 'GradleCompatible'
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 }
 
 repositories {
-    mavenLocal()
     maven {
         // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
         url("$rootDir/../node_modules/react-native/android")
     }
+    mavenCentral {
+        // We don't want to fetch react-native from Maven Central as there are
+        // older versions over there.
+        content {
+            excludeGroup "com.facebook.react"
+        }
+    }
     google()
-    mavenCentral()
-    jcenter()
+    maven { url 'https://www.jitpack.io' }
+
 }
 
 dependencies {
