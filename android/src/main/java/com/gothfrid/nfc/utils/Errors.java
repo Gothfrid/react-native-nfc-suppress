@@ -1,10 +1,6 @@
-package com.reactnativenfcsuppress.constants;
+package com.gothfrid.nfc.utils;
 
 public class Errors {
-
-
-
-
   public static final String EC_GET_ACTIVITY_FAILED = "EC_001";
   public static final String EM_GET_ACTIVITY_FAILED = "Failed to get current Activity";
 

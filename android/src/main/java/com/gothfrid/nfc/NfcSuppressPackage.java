@@ -1,4 +1,4 @@
-package com.reactnativenfcsuppress;
+package com.gothfrid.nfc;
 
 import androidx.annotation.NonNull;
 

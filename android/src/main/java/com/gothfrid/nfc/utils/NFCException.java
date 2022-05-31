@@ -1,4 +1,4 @@
-package com.reactnativenfcsuppress;
+package com.gothfrid.nfc.utils;
 
 public class NFCException extends Exception {
   private String code;

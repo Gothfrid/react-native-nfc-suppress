@@ -15,7 +15,8 @@ export async function isSupported(config?: ConfigProps): Promise<boolean> {
   let supported: boolean = false;
   try {
     if (isFeatureSupported(['android'])) {
-      supported = await NfcSuppress.isNFCSupported();
+      supported = await NfcSuppress.isNfcSupported();
+      console.log('supported:', supported);
     } else {
       throw Error('Unsupported');
     }
