@@ -7,7 +7,7 @@ buildscript {
         }
 
         dependencies {
-            classpath("com.android.tools.build:gradle:4.2.2")
+            classpath('com.android.tools.build:gradle:4.2.2')
         }
     }
 }
@@ -19,16 +19,15 @@ def safeExtGet(prop, fallback) {
 }
 
 android {
-    ndkVersion rootProject.ext.ndkVersion
+    ndkVersion safeExtGet('ndkVersion', '21.4.7075529')
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    
+    compileSdkVersion safeExtGet('compileSdkVersion', 31)
+
     defaultConfig {
         minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 21)
         targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 30)
         versionCode 1
-        versionName "1.0"
-
+        versionName '1.0'
     }
 
     buildTypes {
@@ -50,15 +49,14 @@ repositories {
         // We don't want to fetch react-native from Maven Central as there are
         // older versions over there.
         content {
-            excludeGroup "com.facebook.react"
+            excludeGroup 'com.facebook.react'
         }
     }
     google()
     maven { url 'https://www.jitpack.io' }
-
 }
 
 dependencies {
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.react:react-native:+'  // From node_modules
 }

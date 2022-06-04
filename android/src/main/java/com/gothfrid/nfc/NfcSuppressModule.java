@@ -34,21 +34,17 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
   private boolean suppressionEnabled;
   private boolean paused;
 
-  private final IStateChangeListener onStateChangeReceiver = new IStateChangeListener() {
-    @Override
-    public void onChange(boolean state) {
-      sendEvent(Events.NFC_STATE_CHANGED, state);
-    }
-  };
+  private final IStateChangeListener onStateChangeReceiver = state -> sendEvent(Events.NFC_STATE_CHANGED, state);
 
   public NfcSuppressModule(ReactApplicationContext reactContext) {
+    super(reactContext);
+
     this.reactContext = reactContext;
     this.paused = false;
     this.suppressionEnabled = false;
     this.nfcController = new NfcController(reactContext);
     this.nfcController.registerNfcStateListener(onStateChangeReceiver);
 
-    super(reactContext);
 
   }
 
