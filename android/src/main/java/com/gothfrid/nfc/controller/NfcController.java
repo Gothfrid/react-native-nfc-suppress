@@ -1,7 +1,6 @@
 package com.gothfrid.nfc.controller;
 
 import android.app.Activity;
-import android.util.Log;
 import android.os.Build;
 
 import android.content.BroadcastReceiver;
@@ -29,7 +28,7 @@ public class NfcController {
 
       if (action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
         final int state = intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
-            NfcAdapter.STATE_OFF);
+          NfcAdapter.STATE_OFF);
 
         switch (state) {
           case NfcAdapter.STATE_OFF: {
@@ -55,6 +54,8 @@ public class NfcController {
   public NfcController(ReactApplicationContext reactContext) {
 
     this.reactContext = reactContext;
+    this.nfcAdapter = NfcAdapter.getDefaultAdapter(reactContext);
+
     if (this.isNfcSupported()) {
       this.enabled = this.nfcAdapter.isEnabled();
       IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
@@ -98,7 +99,7 @@ public class NfcController {
         throw new UnsupportedOperationException();
       }
     } catch (Exception error) {
-      throw new NFCException(Errors.EC_SWITCH_NFC_MODE_FAILED, Errors.EC_SWITCH_NFC_MODE_FAILED);
+      throw new NFCException(Errors.EC_SWITCH_NFC_MODE_FAILED, Errors.EM_SWITCH_NFC_MODE_FAILED);
     }
   }
 

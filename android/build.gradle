@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         minSdkVersion safeExtGet('NfcSuppress_minSdkVersion', 21)
-        targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 30)
+        targetSdkVersion safeExtGet('NfcSuppress_targetSdkVersion', 31)
         versionCode 1
         versionName '1.0'
     }

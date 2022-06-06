@@ -2,7 +2,6 @@ package com.gothfrid.nfc;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,6 +22,7 @@ import com.gothfrid.nfc.controller.IStateChangeListener;
 import com.gothfrid.nfc.utils.Errors;
 import com.gothfrid.nfc.utils.Events;
 import com.gothfrid.nfc.utils.NFCException;
+import com.gothfrid.nfc.utils.NfcPermission;
 
 @ReactModule(name = NfcSuppressModule.NAME)
 class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEventListener, LifecycleEventListener {
@@ -31,6 +31,7 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
   private ReactApplicationContext reactContext;
   private NfcController nfcController;
 
+  private boolean permissionDeclared;
   private boolean suppressionEnabled;
   private boolean paused;
 
@@ -42,9 +43,9 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
     this.reactContext = reactContext;
     this.paused = false;
     this.suppressionEnabled = false;
+    this.permissionDeclared = NfcPermission.hasNfcPermissions(reactContext);
     this.nfcController = new NfcController(reactContext);
     this.nfcController.registerNfcStateListener(onStateChangeReceiver);
-
 
   }
 
@@ -60,8 +61,8 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
 
   private void sendEvent(String eventName, boolean state) {
     this.reactContext
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(eventName, state);
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+      .emit(eventName, state);
   }
 
   @ReactMethod
@@ -75,26 +76,27 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
   }
 
   @ReactMethod
+  public void isPermissionDeclared(Promise promise) {
+    promise.resolve(this.permissionDeclared);
+  }
+
+  @ReactMethod
   public void isNfcSupported(Promise promise) {
-    Log.d(NAME, "isNfcSupported");
     promise.resolve(this.nfcController.isNfcSupported());
   }
 
   @ReactMethod
   public void isNfcEnabled(Promise promise) throws NFCException {
-    Log.d(NAME, "isNfcEnabled");
     promise.resolve(this.nfcController.isNfcEnabled());
   }
 
   @ReactMethod
   public void isNfcSuppressionEnabled(Promise promise) {
-    Log.d(NAME, "isNfcSuppressionEnabled");
     promise.resolve(this.suppressionEnabled);
   }
 
   @ReactMethod
   public void openNFCSettings(Promise promise) {
-    Log.d(NAME, "openNfcSettings");
     try {
       boolean opened = false;
       if (this.nfcController.isNfcSupported()) {
@@ -110,7 +112,6 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
 
   @ReactMethod
   public void enableSuppression(Promise promise) {
-    Log.d(NAME, "enableSuppression");
     try {
       this.setSuppression(true);
       promise.resolve(true);
@@ -121,7 +122,6 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
 
   @ReactMethod
   public void disableSuppression(Promise promise) {
-    Log.d(NAME, "disableSuppression");
     try {
       this.setSuppression(false);
       promise.resolve(true);

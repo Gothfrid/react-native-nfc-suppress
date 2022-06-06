@@ -34,7 +34,7 @@ export async function isEnabled(config?: ConfigProps): Promise<boolean> {
   let enabled: boolean = false;
   try {
     if (isFeatureSupported(['android'])) {
-      enabled = await NfcSuppress.isNFCEnabled();
+      enabled = await NfcSuppress.isNfcEnabled();
     } else {
       throw Error('Unsupported');
     }
