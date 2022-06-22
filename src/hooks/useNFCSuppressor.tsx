@@ -1,17 +1,14 @@
 import { useCallback, useEffect } from 'react';
-import {
-  enableSuppression,
-  disableSuppression,
-} from '../ReactNativeNFCSuppresion';
+import { enableSuppression, disableSuppression } from '../NfcSuppressor';
 
-import { useNFCSupportedState } from './useNFCSupportedState';
-import { useNFCEnabledState } from './useNFCEnabledState';
-import { useNFCSuppressionState } from './useNFCSuppressionState';
+import { useNfcSupportedState } from './useNfcSupportedState';
+import { useNfcEnabledState } from './useNfcEnabledState';
+import { useNfcSuppressionState } from './useNfcSuppressionState';
 
-export const useNFCSuppressor = () => {
-  const supported = useNFCSupportedState();
-  const enabled = useNFCEnabledState();
-  const suppressed = useNFCSuppressionState();
+export const useNfcSuppressor = () => {
+  const supported = useNfcSupportedState();
+  const enabled = useNfcEnabledState();
+  const suppressed = useNfcSuppressionState();
   const enable = useCallback(() => {
     if (supported) {
       enableSuppression();

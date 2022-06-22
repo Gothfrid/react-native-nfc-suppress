@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { isSupported } from '../ReactNativeNFCSuppresion';
+import { isSupported } from '../NfcSuppressor';
 
-export const useNFCSupportedState = () => {
+export const useNfcSupportedState = () => {
   const [supported, setSupported] = useState<boolean>(false);
 
   useEffect(() => {
-    isSupported().then((response: boolean) => {
-      setSupported(response);
+    isSupported().then((response) => {
+      setSupported(Boolean(response));
     });
   }, []);
 

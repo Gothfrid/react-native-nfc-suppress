@@ -1,22 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import type { EmitterSubscription } from 'react-native';
 
-import { getNFCStateListener, isEnabled } from '../ReactNativeNFCSuppresion';
+import { getNfcStateListener, isNfcEnabled } from '../NfcSuppressor';
 
-import { useNFCSupportedState } from './useNFCSupportedState';
+import { useNfcSupportedState } from './useNfcSupportedState';
 
-export const useNFCEnabledState = () => {
-  const supported = useNFCSupportedState();
+export const useNfcEnabledState = () => {
+  const supported = useNfcSupportedState();
 
   const [enabled, setEnabled] = useState<boolean>(false);
   const listener = useRef<EmitterSubscription>();
 
   useEffect(() => {
     if (supported) {
-      isEnabled().then((response: boolean) => {
-        setEnabled(response);
+      isNfcEnabled().then((response) => {
+        setEnabled(Boolean(response));
       });
-      listener.current = getNFCStateListener(setEnabled);
+      listener.current = getNfcStateListener(setEnabled);
     }
     return () => {
       if (listener.current) {

@@ -96,7 +96,7 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
   }
 
   @ReactMethod
-  public void openNFCSettings(Promise promise) {
+  public void openNfcSettings(Promise promise) {
     try {
       boolean opened = false;
       if (this.nfcController.isNfcSupported()) {

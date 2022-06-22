@@ -3,21 +3,21 @@ import type { EmitterSubscription } from 'react-native';
 
 import {
   getSuppressionStateListener,
-  isSuppressing,
-} from '../ReactNativeNFCSuppresion';
+  isSuppressionEnabled,
+} from '../NfcSuppressor';
 
-import { useNFCSupportedState } from './useNFCSupportedState';
+import { useNfcSupportedState } from './useNfcSupportedState';
 
-export const useNFCSuppressionState = () => {
-  const supported = useNFCSupportedState();
+export const useNfcSuppressionState = () => {
+  const supported = useNfcSupportedState();
 
   const [suppressed, setSuppressed] = useState<boolean>(false);
-  const listener = useRef<EmitterSubscription>();
+  const listener = useRef<EmitterSubscription | undefined>();
 
   useEffect(() => {
     if (supported) {
-      isSuppressing().then((response: boolean) => {
-        setSuppressed(response);
+      isSuppressionEnabled().then((response) => {
+        setSuppressed(Boolean(response));
       });
       listener.current = getSuppressionStateListener(setSuppressed);
     }
