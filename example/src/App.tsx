@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   TextStyle,
+  Button,
 } from 'react-native';
 import { openNfcSettings, useNfcSuppressor } from 'react-native-nfc-suppress';
 
@@ -61,6 +62,7 @@ export default function App() {
           </Text>
         </TouchableOpacity>
       </View>
+      <Button title="switch" onPress={switchSuppression} />
     </View>
   );
 }
