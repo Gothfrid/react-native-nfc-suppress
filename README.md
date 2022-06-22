@@ -45,11 +45,11 @@ export const ExampleComponent= () => {
 
    return (
      <View style={{display:'flex', flexDirection:'column'}}>
-	   <Text>{`Is NFC enabled: ${supported}`}</Text>
-	   <Text>{`Is NFC enabled: ${enabled}`}</Text>
-       <Text>{`Is enabled: ${suppressed}`}</Text>
-	   <Button title="Switch" onPress={switchSuppression} />
-	 <View>
+	    <Text>{`Is NFC enabled: ${supported}`}</Text>
+	    <Text>{`Is NFC enabled: ${enabled}`}</Text>
+      <Text>{`Is enabled: ${suppressed}`}</Text>
+	    <Button title="Switch" onPress={switchSuppression} />
+	   <View>
 	 >
    )
 }
