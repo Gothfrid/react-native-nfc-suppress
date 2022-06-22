@@ -59,19 +59,19 @@ export const ExampleComponent= () => {
 
 #### Hooks
 
-####useNfcSupportedState
+##### useNfcSupportedState
 Return boolean value. Channel NFC support state.
 Value updates on state change.
 
-#####useNfcEnabledState
+##### useNfcEnabledState
 Return boolean value. Channel NFC state.
 Value updates on state change.
 
-#####useNfcSuppressionState
+##### useNfcSuppressionState
 Return boolean value. Channel NFC suppresion state.
 Value updates on state change.
 
-#####useNfcSuppressor
+##### useNfcSuppressor
 Return object. Expose all module functionality.
 
 ## License
