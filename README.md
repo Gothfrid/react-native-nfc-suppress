@@ -40,8 +40,7 @@ import {
 import { useNfcSuppressor } from 'react-native-nfc-suppress';
 
 export const ExampleComponent= () => {
-  const { suppressed, supported, enabled, enable, disable } =
-  useNfcSuppressor();
+  const { suppressed, supported, enabled, enable, disable } = useNfcSuppressor();
 
   return (
     <View style={{display:'flex', flexDirection:'column'}}>
