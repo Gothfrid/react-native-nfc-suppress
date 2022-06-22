@@ -59,7 +59,7 @@ export const ExampleComponent= () => {
 
 #### Hooks
 
-#####useNfcSupportedState
+####useNfcSupportedState
 Return boolean value. Channel NFC support state.
 Value updates on state change.
 
