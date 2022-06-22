@@ -14,6 +14,12 @@ import {
   throwError,
 } from './utils';
 
+/**
+ * This method checks if NFC is supported.
+ * Can return Boolean or undefined in case of Error.
+ * @param errorMode level on error propagation
+ * @returns value of nfc support state
+ */
 export async function isSupported(
   errorMode: IErrorsMode = 'silent'
 ): Promise<boolean | void> {
@@ -31,6 +37,12 @@ export async function isSupported(
   return supported;
 }
 
+/**
+ * This method checks if the required permission declaration is set.
+ * Can return Boolean or undefined in case of Error.
+ * @param errorMode level on error propagation
+ * @returns value of permission declaration state
+ */
 export async function isPermissionDeclared(
   errorMode: IErrorsMode = 'silent'
 ): Promise<boolean | void> {
@@ -47,6 +59,12 @@ export async function isPermissionDeclared(
   return hasPermissionDeclaration;
 }
 
+/**
+ * This method checks if NFC functionality is enabled.
+ * Can return Boolean or undefined in case of Error.
+ * @param errorMode level on error propagation
+ * @returns value of permission declaration state
+ */
 export async function isNfcEnabled(
   errorMode: IErrorsMode = 'silent'
 ): Promise<boolean | void> {
@@ -63,6 +81,12 @@ export async function isNfcEnabled(
   return enabled;
 }
 
+/**
+ * This method checks if NFC suppression is enabled.
+ * Can return Boolean or undefined in case of Error.
+ * @param errorMode level on error propagation
+ * @returns value of nfc suppression state
+ */
 export async function isSuppressionEnabled(
   errorMode: IErrorsMode = 'silent'
 ): Promise<boolean | void> {
@@ -82,6 +106,10 @@ export async function isSuppressionEnabled(
   return enabled;
 }
 
+/**
+ * This method will open NFC settings.
+ * @param errorMode level on error propagation
+ */
 export async function openNfcSettings(
   errorMode: IErrorsMode = 'silent'
 ): Promise<void> {
@@ -96,6 +124,10 @@ export async function openNfcSettings(
   }
 }
 
+/**
+ * Turn on NFC suppresion
+ * @param errorMode level on error propagation
+ */
 export async function enableSuppression(
   errorMode: IErrorsMode = 'silent'
 ): Promise<void> {
@@ -110,11 +142,15 @@ export async function enableSuppression(
   }
 }
 
+/**
+ * Turn off NFC supprestion
+ * @param errorMode level on error propagation
+ */
 export async function disableSuppression(
   errorMode: IErrorsMode = 'silent'
 ): Promise<void> {
   try {
-    await NfcSuppress.enableSuppression();
+    await NfcSuppress.disableSuppression();
   } catch (error) {
     if (errorMode === 'console') {
       logError('Failed to disable NFC suppression', error as ITypedError);
@@ -124,6 +160,11 @@ export async function disableSuppression(
   }
 }
 
+/**
+ * This method exposes NativeEventEmiter that allows subscribing to events from the module.
+ * Return NativeEventEmitter or undefined in case of Error.
+ * @param errorMode level on error propagation
+ */
 export function getEventEmitter(
   errorMode: IErrorsMode = 'silent'
 ): NativeEventEmitter | undefined {
@@ -140,6 +181,11 @@ export function getEventEmitter(
   return eventEmitter;
 }
 
+/**
+ * This method allows set callback on NFC suppression state change.
+ * Return EmitterSubscription or undefined in case of Error.
+ * @param errorMode level on error propagation
+ */
 export function getSuppressionStateListener(
   callback: (state: boolean) => void,
   errorMode: IErrorsMode = 'silent'
@@ -171,6 +217,11 @@ export function getSuppressionStateListener(
   return subscription;
 }
 
+/**
+ * This method allows set callback on NFC state change.
+ * Return EmitterSubscription or undefined in case of Error.
+ * @param errorMode level on error propagation
+ */
 export function getNfcStateListener(
   callback: (state: boolean) => void,
   errorMode: IErrorsMode = 'silent'

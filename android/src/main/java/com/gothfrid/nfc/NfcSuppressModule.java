@@ -61,8 +61,8 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
 
   private void sendEvent(String eventName, boolean state) {
     this.reactContext
-      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-      .emit(eventName, state);
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(eventName, state);
   }
 
   @ReactMethod
@@ -71,7 +71,7 @@ class NfcSuppressModule extends ReactContextBaseJavaModule implements ActivityEv
   }
 
   @ReactMethod
-  public void removeListeners() {
+  public void removeListeners(Integer count) {
     // Remove upstream listeners, stop unnecessary background tasks
   }
 
