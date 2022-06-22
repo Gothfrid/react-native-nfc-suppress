@@ -40,17 +40,16 @@ import {
 import { useNfcSuppressor } from 'react-native-nfc-suppress';
 
 export const ExampleComponent= () => {
-   const { suppressed, supported, enabled, enable, disable } =
-   useNfcSuppressor();
+  const { suppressed, supported, enabled, enable, disable } =
+  useNfcSuppressor();
 
-   return (
-     <View style={{display:'flex', flexDirection:'column'}}>
-	    <Text>{`Is NFC enabled: ${supported}`}</Text>
-	    <Text>{`Is NFC enabled: ${enabled}`}</Text>
+  return (
+    <View style={{display:'flex', flexDirection:'column'}}>
+      <Text>{`Is NFC enabled: ${supported}`}</Text>
+      <Text>{`Is NFC enabled: ${enabled}`}</Text>
       <Text>{`Is enabled: ${suppressed}`}</Text>
-	    <Button title="Switch" onPress={switchSuppression} />
-	   <View>
-	 >
+      <Button title="Switch" onPress={switchSuppression} />
+    <View>	 
    )
 }
 ```
