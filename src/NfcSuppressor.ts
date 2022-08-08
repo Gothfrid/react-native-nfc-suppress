@@ -2,6 +2,7 @@ import {
   EmitterSubscription,
   NativeEventEmitter,
   NativeModules,
+  Platform,
 } from 'react-native';
 
 import { NfcSuppress } from './NfcSuppress';
@@ -113,14 +114,18 @@ export async function isSuppressionEnabled(
 export async function openNfcSettings(
   errorMode: IErrorsMode = 'silent'
 ): Promise<void> {
-  try {
-    await NfcSuppress.openNfcSettings();
-  } catch (error) {
-    if (errorMode === 'console') {
-      logError('Failed to open NFC Settings', error as ITypedError);
-    } else if (errorMode === 'exception') {
-      throwError('Failed to open NFC Settings', error as ITypedError);
+  if (Platform.OS === 'android') {
+    try {
+      await NfcSuppress.openNfcSettings();
+    } catch (error) {
+      if (errorMode === 'console') {
+        logError('Failed to open NFC Settings', error as ITypedError);
+      } else if (errorMode === 'exception') {
+        throwError('Failed to open NFC Settings', error as ITypedError);
+      }
     }
+  } else {
+    throwError('Unsupported on iOS');
   }
 }
 
