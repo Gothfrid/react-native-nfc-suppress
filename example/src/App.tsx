@@ -9,6 +9,7 @@ import {
   TextStyle,
   Button,
 } from 'react-native';
+
 import { openNfcSettings, useNfcSuppressor } from 'react-native-nfc-suppress';
 
 const getEnabledColor = (enabled: boolean): TextStyle => ({

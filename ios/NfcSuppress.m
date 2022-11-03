@@ -1,6 +1,16 @@
 #import "NfcSuppress.h"
+#import <PassKit/PassKit.h>
 
-@implementation NfcSuppress
+@implementation NfcSuppress {
+  bool hasListeners;
+  bool suppressed;
+}
+
+
+- (NSArray<NSString *> *)supportedEvents {
+    return @[@"nfc_state_changed", @"suppress_state_changed"];
+}
+
 
 RCT_EXPORT_MODULE()
 
@@ -39,7 +49,6 @@ RCT_EXPORT_METHOD(
   (RCTPromiseResolveBlock)resolve
   rejecter:(RCTPromiseRejectBlock)reject
 ) {
-
   resolve(@YES);
 }
 
@@ -52,7 +61,7 @@ RCT_EXPORT_METHOD(
   (RCTPromiseResolveBlock)resolve
   rejecter:(RCTPromiseRejectBlock)reject
 ) {
-
+  
   resolve(@YES);
 }
 
@@ -79,6 +88,7 @@ RCT_EXPORT_METHOD(
   (RCTPromiseResolveBlock)resolve
   rejecter:(RCTPromiseRejectBlock)reject
 ) {
+  [self sendEventWithName:@"suppress_state_changed" body:@YES];
 
   resolve(@YES);
 }
@@ -93,7 +103,10 @@ RCT_EXPORT_METHOD(
   rejecter:(RCTPromiseRejectBlock)reject
 ) {
 
+  [self sendEventWithName:@"suppress_state_changed" body:@NO];
+
   resolve(@YES);
+
 }
 
 

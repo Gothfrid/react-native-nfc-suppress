@@ -9,6 +9,8 @@ import { NfcSuppress } from './NfcSuppress';
 
 import type { IErrorsMode, ITypedError } from './types';
 import {
+  EC_UNSUPPORTED,
+  EM_UNSUPPORTED,
   logError,
   NFC_STATE_CHANGED,
   SUPPRESSION_STATE_CHANGED,
@@ -125,7 +127,15 @@ export async function openNfcSettings(
       }
     }
   } else {
-    throwError('Unsupported on iOS');
+    const error: ITypedError = {
+      code: EC_UNSUPPORTED,
+      message: EM_UNSUPPORTED
+    }
+    if (errorMode === 'console') {
+      logError('Failed to open NFC Settings', error);
+    } else if (errorMode === 'exception') {
+      throwError('Failed to open NFC Settings', error as ITypedError);
+    }
   }
 }
 

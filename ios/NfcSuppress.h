@@ -1,5 +1,6 @@
 #import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
 
-@interface NfcSuppress : NSObject <RCTBridgeModule>
+@interface NfcSuppress : RCTEventEmitter <RCTBridgeModule>
 
 @end
